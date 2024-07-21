@@ -7,8 +7,9 @@ const path = require("path");
 
 const projectRoot = __dirname;
 const workspaceRoot = path.resolve(__dirname, "../..");
+const config = getDefaultConfig(__dirname)
 
-const config = getDefaultConfig(projectRoot, { isCSSEnabled: true });
+// const config = getDefaultConfig(projectRoot, { isCSSEnabled: true });
 // for hono/client to work because unstable_enablePackageExports is not working
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === "hono/client") {
@@ -27,10 +28,13 @@ config.resolver.nodeModulesPaths = [
 
 config.transformer = { ...config.transformer, unstable_allowRequireContext: true };
 config.transformer.minifierPath = require.resolve("metro-minify-terser");
-const { withTamagui } = require("@tamagui/metro-plugin");
 
-module.exports = withTamagui(config, {
-  components: ["tamagui"],
-  config: "./tamagui.config.ts",
-  outputCSS: "./tamagui-web.css",
-});
+
+// tusika
+
+
+
+
+const { withNativeWind } = require('nativewind/metro');
+
+module.exports = withNativeWind(config, { input: './global.css' })

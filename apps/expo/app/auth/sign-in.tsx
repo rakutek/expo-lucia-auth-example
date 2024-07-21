@@ -1,25 +1,32 @@
 import { Stack } from "expo-router";
-import { View, YStack } from "tamagui";
+
 
 import { AppleSignIn } from "../../lib/auth/apple";
 import { GithubSignIn } from "../../lib/auth/github";
 import { GoogleSignIn } from "../../lib/auth/google";
+import { Box } from "../../components/ui/box";
+import { VStack } from "../../components/ui/vstack";
+import { Text } from "../../components/ui/text";
+import { View } from "react-native";
 
 export default function SignIn() {
   return (
-    <>
+    <View>
       <Stack.Screen
         options={{
           title: "Sign In",
         }}
       />
-      <View alignItems="center" flex={1} margin={8}>
-        <YStack gap={12} flex={1} width={"100%"} maxWidth={500}>
-          <GithubSignIn />
-          <GoogleSignIn />
-          <AppleSignIn />
-        </YStack>
-      </View>
-    </>
+
+
+      <VStack
+        className="gap-12 flex-1 w-full max-w-[500px]"
+      >
+        <GithubSignIn />
+        {/* <GoogleSignIn />
+          <AppleSignIn /> */}
+      </VStack>
+
+    </View>
   );
 }

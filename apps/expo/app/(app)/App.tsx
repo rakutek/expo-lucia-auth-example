@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { Pressable, useColorScheme } from "react-native";
+import { Pressable, useColorScheme, View } from "react-native";
 import { router } from "expo-router";
 import type { InferResponseType } from "hono";
-import { Button, H3, H4, Image, Text, View, XStack, YStack } from "tamagui";
-
 import type { Api } from "../../lib/api.client";
 import { useAuth } from "../../lib/auth/AuthProvider";
+import { VStack } from "../../components/ui/vstack";
+import { HStack } from "../../components/ui/hstack";
+import { Button, ButtonText } from "../../components/ui/button";
+import { Text } from "../../components/ui/text";
+import { Image } from "../../components/ui/image";
+import { Center } from "../../components/ui/center";
+import { Box } from "../../components/ui/box";
 
 export function App() {
   const scheme = useColorScheme();
@@ -13,69 +18,69 @@ export function App() {
   const [accounts, setAccounts] = useState<
     InferResponseType<(typeof Api.client)["user"]["oauth-accounts"]["$get"]>["accounts"]
   >([]);
+
   useEffect(() => {
     void getOAuthAccounts().then((response) => setAccounts(response));
   }, [getOAuthAccounts]);
+
+
   return (
-    <View alignItems="center" flex={1} margin={"$3"}>
-      <YStack
-        gap={"$3"}
-        flex={1}
-        width={"100%"}
-        maxWidth={500}
-        backgroundColor={scheme === "light" ? "white" : undefined}
-        padding={"$4"}
-        borderRadius={"$3"}
-      >
+
+    <Center>
+      <VStack className="flex flex-col gap-3 flex-1 w-full max-w-[500px] bg-white dark:bg-transparent p-4 rounded-lg">
+
+
         {user && (
           <View>
-            <H3 marginBottom={"$3"}>User Information</H3>
-            <XStack gap={"$4"} alignItems="center" marginBottom={"$3"}>
+            <Text className="mb-3">User Information</Text>
+            <HStack className="flex gap-4 items-center mb-3">
               {user.profilePictureUrl ? (
-                <Image src={user.profilePictureUrl} width={"$8"} height={"$8"} borderRadius={999} />
+                <Image
+                  source={{ uri: user.profilePictureUrl }}
+                  className="w-8 h-8 rounded-full"
+                />
               ) : (
-                <View width={"$8"} height={"$8"} backgroundColor={"$gray11"} borderRadius={999} />
+                <View className="w-8 h-8 bg-gray-300 rounded-full" />
               )}
               <View>
-                <H4>{user.username}</H4>
+                <Text>{user.username}</Text>
                 <Text>{user.email}</Text>
               </View>
-            </XStack>
-            <YStack gap={6}>
-              <Text color="$gray11">User ID: {user.id}</Text>
-              <Text color="$gray11">E-Mail Verified: {user.emailVerified ? "yes" : "no"}</Text>
-            </YStack>
+            </HStack>
+            <VStack className="gap-6">
+              <Text className="text-gray-500">User ID: {user.id}</Text>
+              <Text className="text-gray-500">
+                E-Mail Verified: {user.emailVerified ? "yes" : "no"}
+              </Text>
+            </VStack>
           </View>
         )}
-        <H3>OAuth yey</H3>
+        <Text>OAuth</Text>
         {["Google", "Apple", "Github"].map((provider) => (
-          <XStack
+          <HStack
             key={provider}
-            alignItems="center"
-            justifyContent="space-between"
-            backgroundColor={"$gray3"}
-            borderRadius={"$4"}
-            padding={"$3"}
+            className="flex items-center justify-between bg-gray-100 rounded-lg p-3"
           >
             <Text>{provider}</Text>
             {accounts.some((account) => account.provider === provider.toLowerCase()) ? (
-              <Text color="$green10">Connected</Text>
+              <Text className="text-green-500">Connected</Text>
             ) : (
               <Pressable onPress={() => signInWithOAuth({ provider: provider.toLowerCase() })}>
-                <Text color="$gray12">Connect now</Text>
+                <Text className="text-gray-900">Connect now</Text>
               </Pressable>
             )}
-          </XStack>
+          </HStack>
         ))}
         <Button
           onPress={() => {
             void signOut().then(() => router.replace("/auth/sign-in"));
           }}
-          backgroundColor={scheme === "light" ? "$gray4" : undefined}
+          className={`${scheme === "light" ? "bg-gray-200" : ""}`}
         >
           Sign out
         </Button>
-      </YStack>
-    </View>
+      </VStack>
+    </Center >
+
   );
 }

@@ -1,11 +1,12 @@
 import { Redirect, Stack } from "expo-router";
-import { Text } from "tamagui";
-
+import { Text } from "react-native";
 import { useAuth } from "../../lib/auth/AuthProvider";
 
 export default function AppLayout() {
   const { loading, user } = useAuth();
 
+  console.log("loading", loading);
+  console.log("user", user);
   if (loading) {
     return (
       <>

@@ -1,9 +1,10 @@
 import { Platform } from "react-native";
 import { SvgUri } from "react-native-svg";
 import { router } from "expo-router";
-import { Button, Image } from "tamagui";
 
 import { useAuth } from "./AuthProvider";
+import { Button, ButtonText } from "../../components/ui/button";
+import { Image } from "../../components/ui/image";
 
 export const GithubSignIn = () => {
   const { signInWithOAuth } = useAuth();
@@ -16,15 +17,18 @@ export const GithubSignIn = () => {
           }
         });
       }}
-      icon={
-        Platform.OS === "web" ? (
-          <Image src={"https://www.cdnlogo.com/logos/g/69/github-icon.svg"} width={20} height={20} />
-        ) : (
-          <SvgUri uri={"https://www.cdnlogo.com/logos/g/69/github-icon.svg"} width={20} height={20} />
-        )
-      }
+    // icon={
+    //   Platform.OS === "web" ? (
+    //     <Image src={"https://www.cdnlogo.com/logos/g/69/github-icon.svg"} width={20} height={20} />
+    //   ) : (
+    //     <SvgUri uri={"https://www.cdnlogo.com/logos/g/69/github-icon.svg"} width={20} height={20} />
+    //   )
+    // }
     >
-      Continue with GitHub
+      <ButtonText>
+
+        Continue with GitHub
+      </ButtonText>
     </Button>
   );
 };
