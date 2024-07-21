@@ -50,7 +50,7 @@ export function App() {
             </HStack>
             <VStack className="gap-6">
               <Text className="text-gray-500">User ID: {user.id}</Text>
-              <Text className="text-gray-500">
+              <Text className="">
                 E-Mail Verified: {user.emailVerified ? "yes" : "no"}
               </Text>
             </VStack>

@@ -47,8 +47,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     provider: Provider;
     redirect?: string;
   }) => {
-    const oauthUrl = new URL(`${process.env.EXPO_PUBLIC_api_URL!}/auth/${provider}?redirect=${redirect}`);
+    const oauthUrl = new URL(`${process.env.EXPO_PUBLIC_API_URL!}/auth/${provider}?redirect=${redirect}`);
+    console.log(oauthUrl);
     const sesionToken = await Storage.getItem("session_token");
+
     if (sesionToken) {
       oauthUrl.searchParams.append("sessionToken", sesionToken);
     }

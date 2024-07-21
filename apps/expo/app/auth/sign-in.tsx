@@ -23,6 +23,7 @@ export default function SignIn() {
         className="gap-12 flex-1 w-full max-w-[500px]"
       >
         <GithubSignIn />
+        <GoogleSignIn />
         {/* <GoogleSignIn />
           <AppleSignIn /> */}
       </VStack>

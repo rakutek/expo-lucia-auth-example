@@ -3,9 +3,10 @@ import { Platform } from "react-native";
 import { SvgUri } from "react-native-svg";
 import { router } from "expo-router";
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
-import { Button, Image } from "tamagui";
+
 
 import { useAuth } from "./AuthProvider";
+import { Button, ButtonText } from "../../components/ui/button";
 
 GoogleSignin.configure({
   iosClientId: process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID!,
@@ -35,15 +36,17 @@ export const GoogleSignIn = () => {
           console.log(error);
         }
       }}
-      icon={
-        Platform.OS === "web" ? (
-          <Image src={"https://www.cdnlogo.com/logos/g/35/google-icon.svg"} width={20} height={20} />
-        ) : (
-          <SvgUri uri={"https://www.cdnlogo.com/logos/g/35/google-icon.svg"} width={20} height={20} />
-        )
-      }
+    // icon={
+    //   Platform.OS === "web" ? (
+    //     <Image src={"https://www.cdnlogo.com/logos/g/35/google-icon.svg"} width={20} height={20} />
+    //   ) : (
+    //     <SvgUri uri={"https://www.cdnlogo.com/logos/g/35/google-icon.svg"} width={20} height={20} />
+    //   )
+    // }
     >
-      Continue with Google
+      <ButtonText>
+        Continue with Google
+      </ButtonText>
     </Button>
   );
 };
