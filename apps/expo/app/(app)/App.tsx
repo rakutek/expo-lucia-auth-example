@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Pressable, useColorScheme, View } from "react-native";
 import { router } from "expo-router";
 import type { InferResponseType } from "hono";
-import type { Api } from "../../lib/api.client";
+import { api } from "../../lib/api.client";
 import { useAuth } from "../../lib/auth/AuthProvider";
 import { VStack } from "../../components/ui/vstack";
 import { HStack } from "../../components/ui/hstack";
@@ -16,8 +16,9 @@ export function App() {
   const scheme = useColorScheme();
   const { user, signOut, getOAuthAccounts, signInWithOAuth } = useAuth();
   const [accounts, setAccounts] = useState<
-    InferResponseType<(typeof Api.client)["user"]["oauth-accounts"]["$get"]>["accounts"]
+    InferResponseType<(typeof api.client)["user"]["oauth-accounts"]["$get"]>["accounts"]
   >([]);
+
 
   useEffect(() => {
     void getOAuthAccounts().then((response) => setAccounts(response));

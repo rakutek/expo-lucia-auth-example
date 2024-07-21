@@ -22,4 +22,4 @@ class ApiClientSingleton {
   };
 }
 
-export const Api = new ApiClientSingleton();
+export const api = new ApiClientSingleton();

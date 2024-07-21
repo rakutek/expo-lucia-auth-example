@@ -5,13 +5,13 @@ import * as Linking from "expo-linking";
 import * as Browser from "expo-web-browser";
 import type { InferRequestType, InferResponseType } from "hono/client";
 
-import { Api } from "../api.client";
+import { api } from "../api.client";
 import Storage from "../storage";
 
-type User = NonNullable<InferResponseType<(typeof Api.client)["user"]["$get"]>>;
+type User = NonNullable<InferResponseType<(typeof api.client)["user"]["$get"]>>;
 
 type Provider = NonNullable<
-  InferRequestType<(typeof Api.client)["auth"]["login"][":provider"]["$post"]>
+  InferRequestType<(typeof api.client)["auth"]["login"][":provider"]["$post"]>
 >["param"]["provider"];
 
 interface AuthContextType {
@@ -24,7 +24,7 @@ interface AuthContextType {
       username: string;
     };
   }) => Promise<User | null>;
-  getOAuthAccounts: () => Promise<InferResponseType<(typeof Api.client)["user"]["oauth-accounts"]["$get"]>["accounts"]>;
+  getOAuthAccounts: () => Promise<InferResponseType<(typeof api.client)["user"]["oauth-accounts"]["$get"]>["accounts"]>;
   signInWithOAuth: (args: { provider: Provider; redirect?: string }) => Promise<User | null>;
   loading: boolean;
 }
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     provider: Provider;
     redirect?: string;
   }) => {
-    const oauthUrl = new URL(`${process.env.EXPO_PUBLIC_API_URL!}/auth/${provider}?redirect=${redirect}`);
+    const oauthUrl = new URL(`${process.env.EXPO_PUBLIC_api_URL!}/auth/${provider}?redirect=${redirect}`);
     const sesionToken = await Storage.getItem("session_token");
     if (sesionToken) {
       oauthUrl.searchParams.append("sessionToken", sesionToken);
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (!sessionToken) {
       return null;
     }
-    Api.addSessionToken(sessionToken);
+    api.addSessionToken(sessionToken);
     const user = await getUser();
     setUser(user);
     await Storage.setItem("session_token", sessionToken);
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       username: string;
     };
   }): Promise<User | null> => {
-    const response = await Api.client.auth.login[":provider"].$post({
+    const response = await api.client.auth.login[":provider"].$post({
       param: { provider },
       json: { idToken, user: createUser },
     });
@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (!sessionToken) {
       return null;
     }
-    Api.addSessionToken(sessionToken);
+    api.addSessionToken(sessionToken);
     const user = await getUser();
     setUser(user);
     await Storage.setItem("session_token", sessionToken);
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const getUser = async (): Promise<User | null> => {
-    const response = await Api.client.user.$get();
+    const response = await api.client.user.$get();
     if (!response.ok) {
       return null;
     }
@@ -108,7 +108,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const signOut = async () => {
-    const response = await Api.client.auth.logout.$post();
+    const response = await api.client.auth.logout.$post();
     if (!response.ok) {
       return;
     }
@@ -117,7 +117,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const getOAuthAccounts = async () => {
-    const response = await Api.client.user["oauth-accounts"].$get();
+    const response = await api.client.user["oauth-accounts"].$get();
     if (!response.ok) {
       return [];
     }
@@ -129,7 +129,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setLoading(true);
       const sessionToken = await Storage.getItem("session_token");
       if (sessionToken) {
-        Api.addSessionToken(sessionToken);
+        api.addSessionToken(sessionToken);
         const user = await getUser();
         setUser(user);
       }
