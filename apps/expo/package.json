@@ -7,6 +7,7 @@
     "lint": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\"",
     "start": "npx expo start -c",
+    "web": "npx expo start --web",
     "android": "npx expo run:android",
     "ios": "npx expo run:ios",
     "dev:client": "npx expo start --clear --dev-client",
