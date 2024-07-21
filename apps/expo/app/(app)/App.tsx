@@ -79,6 +79,14 @@ export function App() {
         >
           Sign out
         </Button>
+
+        <Button size="md" variant="solid" action="primary" >
+          <ButtonText>Hello World!</ButtonText>
+        </Button>
+
+        <Button action={"primary"} variant={"solid"} size={"lg"} isDisabled={true}>
+          <ButtonText>Button</ButtonText>
+        </Button>
       </VStack>
     </Center >
 
