@@ -47,7 +47,7 @@ export function App() {
             </YStack>
           </View>
         )}
-        <H3>OAuth</H3>
+        <H3>OAuth yey</H3>
         {["Google", "Apple", "Github"].map((provider) => (
           <XStack
             key={provider}

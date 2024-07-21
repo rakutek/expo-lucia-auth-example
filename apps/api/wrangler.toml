@@ -3,8 +3,11 @@ compatibility_date = "2023-12-04"
 
 vars = { ENVIRONMENT = "development" }
 
+[dev]
+port = 8787
+
 [[d1_databases]]
-binding = "DB" # i.e. available in your Worker on env.DB
+binding = "DB"                                       # i.e. available in your Worker on env.DB
 database_name = "demo"
 database_id = "b016f510-a7f5-4596-a596-836314b25841"
 preview_database_id = "DB"
@@ -13,6 +16,5 @@ migrations_dir = "./src/database/migrations"
 [env.production]
 vars = { ENVIRONMENT = "production" }
 d1_databases = [
-  { binding = "DB", database_name = "demo", database_id = "b016f510-a7f5-4596-a596-836314b25841" }
+  { binding = "DB", database_name = "demo", database_id = "b016f510-a7f5-4596-a596-836314b25841" },
 ]
-
